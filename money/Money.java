@@ -1,6 +1,6 @@
 package money;
 
-class Money {
+class Money implements Expression{
 	protected int amount; // "Protected" enables only child class to refer to
 	protected String currency;
 
@@ -13,10 +13,26 @@ class Money {
 		return new Money(amount * muliplier, currency);
 	};
 
+	Expression plus(Money addend) {
+		return new Sum(this, addend);
+	}
+
+	public Money reduce(String to) {
+		return this;
+	}
+
+	String currency() {
+		return currency;
+	}
+
 	public boolean equals(Object object) {
 		Money money = (Money) object;
 		return amount == money.amount
-				&& currency.equals(money.currency);
+				&& currency.equals(money.currency());
+	}
+
+	public String toString() {
+		return amount + " " + currency;
 	}
 
 	static Money dollar(int amount) {
